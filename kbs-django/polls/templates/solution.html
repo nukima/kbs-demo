@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    
+</head>
+<body>
+<div class="container">
+    <div class="row col-md-6 col-md-offset-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <h1>Giải pháp</h1>
+            </div>
+            <div class="panel-body">
+                <form  method="get">
+                    <div class="form-group">
+                    <p id="data"></p>
+                    <script>
+                        fetch("https://jsonplaceholder.typicode.com/posts")
+                            .then(function(response){
+                            return response.json();
+                        })
+                        .then(function (posts){
+                            var html = posts.map(function (post){
+                                return '<li> <h2>${post.body}</h2> </li>';
+                            });
+                            var html = htmls.join("");
+                            document.getElementById('data').innerHTML=html;
+
+                        })
+                        .catch(function (err){
+                            alert("Error");
+                        });
+                    </script>
+
+                    <a href="slide_bar.html" class="btn btn-primary" >Trở lại</a>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer text-right">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+</div>
+</body>
+</html>

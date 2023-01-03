@@ -6,6 +6,7 @@ import ptit.edu.kbsdemo.model.*;
 import ptit.edu.kbsdemo.repository.CasesEntityRepository;
 import ptit.edu.kbsdemo.repository.ErrorsEntityRepository;
 import ptit.edu.kbsdemo.repository.SimilarityWeightsEntityRepository;
+import ptit.edu.kbsdemo.repository.UnknownCasesRepository;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class KbsService {
 
     @Autowired
     private ErrorsEntityRepository errorsEntityRepository;
+
+    @Autowired
+    private UnknownCasesRepository unknownCasesRepository;
 
 
     public SolutionResponse getSolution(CaseRequest caseRequest) {
@@ -34,6 +38,25 @@ public class KbsService {
                 maxSimilarityPoint = similarity;
                 mostSimilarCase = casesEntity;
             }
+        }
+
+        if (maxSimilarityPoint < 0.7){
+            String symptoms = String.join(",", caseRequest.getSymptoms());
+            UnknownCasesEntity unknownCasesEntity = new UnknownCasesEntity(
+                caseRequest.getCustomerTel(),
+                symptoms,
+                caseRequest.getWorkingEnvironment(),
+                caseRequest.getWorkingYear(),
+                caseRequest.getKilometer(),
+                caseRequest.getLastMaintenanceTime(),
+                caseRequest.getProblem()
+            );
+            unknownCasesRepository.save(unknownCasesEntity);
+            return new SolutionResponse(
+                "UNKNOWN",
+                "UNKNOWN",
+                maxSimilarityPoint
+            );
         }
 
         ErrorsEntity errorsEntity = errorsEntityRepository.findByLabelIdIgnoreCase(mostSimilarCase.getErrorLabelId());
@@ -82,8 +105,6 @@ public class KbsService {
     }
 
     public double getSimilarityWeight(String labelId1, String labelId2) {
-        System.out.println("===================================");
-        System.out.println(labelId1 + " " + labelId2);
         SimilarityWeightsEntity similarityWeightsEntity =
             similarityWeightsEntityRepository.findByLabelId1AndLabelId2AllIgnoreCase(labelId1, labelId2);
         if (similarityWeightsEntity != null) {
@@ -93,6 +114,10 @@ public class KbsService {
             similarityWeightsEntityRepository.findByLabelId1AndLabelId2AllIgnoreCase(labelId2, labelId1);
 
         return similarityWeightsEntity2.getWeight();
+    }
 
+    public UnknownCasesEntity getUnknownCase(String customerTel) {
+        UnknownCasesEntity unknownCasesEntity = unknownCasesRepository.findByCustomerTel(customerTel);
+        return unknownCasesEntity;
     }
 }

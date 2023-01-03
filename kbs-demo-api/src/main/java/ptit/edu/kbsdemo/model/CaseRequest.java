@@ -24,14 +24,19 @@ public class CaseRequest {
     @JsonProperty("problem")
     public String problem;
 
+    @JsonProperty("customer_tel")
+    public String customerTel;
+
     public CaseRequest() {}
 
-    public CaseRequest(String symptoms, String workingEnvironment, String workingYear, String kilometer, String lastMaintenanceTime, String problem) {
+    public CaseRequest(String symptoms, String workingEnvironment, String workingYear, String kilometer,
+                       String lastMaintenanceTime, String problem, String customerTel) {
         this.symptoms = symptoms.split(",");
         this.workingEnvironment = workingEnvironment;
         this.workingYear = workingYear;
         this.kilometer = kilometer;
         this.lastMaintenanceTime = lastMaintenanceTime;
         this.problem = problem;
+        this.customerTel = customerTel;
     }
 }

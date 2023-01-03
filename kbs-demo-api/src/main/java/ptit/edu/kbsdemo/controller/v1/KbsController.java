@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ptit.edu.kbsdemo.model.CaseRequest;
 import ptit.edu.kbsdemo.model.SolutionResponse;
+import ptit.edu.kbsdemo.model.UnknownCasesEntity;
 import ptit.edu.kbsdemo.service.KbsService;
 
 @RestController
@@ -17,5 +18,10 @@ public class KbsController {
     @GetMapping("/solution")
     public SolutionResponse getSolution(CaseRequest caseRequest) {
         return kbsService.getSolution(caseRequest);
+    }
+
+    @GetMapping("/unknown-case")
+    public UnknownCasesEntity getUnknownCase(String customerTel) {
+        return kbsService.getUnknownCase(customerTel);
     }
 }
