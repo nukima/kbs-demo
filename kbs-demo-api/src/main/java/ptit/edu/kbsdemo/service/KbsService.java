@@ -81,26 +81,26 @@ public class KbsService {
 
         double workingEnvironmentWeight = getSimilarityWeight(caseRequest.getWorkingEnvironment(),
             casesEntity.getWorkingEnvironmentLabelId());
-        total += workingEnvironmentWeight * 6;
+        total += workingEnvironmentWeight * 4;
 
         double workingYearWeight = getSimilarityWeight(caseRequest.getWorkingYear(),
             casesEntity.getWorkingYearLabelId());
-        total += workingYearWeight * 6;
+        total += workingYearWeight * 2;
 
         double kilometerWeight = getSimilarityWeight(caseRequest.getKilometer(),
             casesEntity.getKilometerLabelId());
-        total += kilometerWeight * 6;
+        total += kilometerWeight * 2;
 
         double lastMaintenanceTimeWeight = getSimilarityWeight(caseRequest.getLastMaintenanceTime(),
             casesEntity.getLastMaintenanceTimeLabelId());
-        total += lastMaintenanceTimeWeight * 6;
+        total += lastMaintenanceTimeWeight * 4;
 
         double problemWeight = getSimilarityWeight(caseRequest.getProblem(),
             casesEntity.getProblemLabelId());
-        total += problemWeight * 6;
+        total += problemWeight * 3;
 
         // round to 2 decimal places
-        double similarityPoint = total / 36;
+        double similarityPoint = total / 21;
         return Math.round(similarityPoint * 100.0) / 100.0;
     }
 
