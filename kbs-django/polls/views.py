@@ -5,28 +5,31 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework import status
 
-from .forms import TuVanForm
+from .forms import *
 # Create your views here.
 def home(request):
-	return render(request, 'slide_bar.html')
+	return render(request, 'index.html')
 
 def demo(request):
 	return render(request, 'demo.html')
 
 def feedback(request):
-	return render(request, 'feed_back.html')
+	if request.GET:
+		customerTel = request.GET['customerTel']
+		error = ""
+		if 'error' in request.GET:
+			error = request.GET['error']
+		else:
+			error = request.GET['error_text']
+		solution = request.GET['solution']
+		# 'localhost:8080/api/v1/kbs/add-case?customerTel=123&error=Loi dieu hoa&solution=mang ra gara'
+		url = 'http://localhost:8080/api/v1/kbs/add-case?customerTel={}&error={}&solution={}'.format(customerTel, error, solution)
+		response = requests.get(url).json()
+		return render(request, 'thanks.html')
+			
 
-def solution(request):
-	return render(request, 'solution.html')
-
-def form(request):
-	symptoms = request.POST['symptoms']
-	working_environments = request.POST['working_environments']
-	working_years = request.POST['working_years']
-	kilometers = request.POST['kilometers']
-	last_maintenace_times = request.POST['last_maintenace_times']
-	problems = request.POST['problems']
-	return Response({"status": "success", "data": symptoms}, status=status.HTTP_200_OK)
+	form = GetUnknownCaseForm(request.POST)
+	return render(request, 'feed_back.html', {'form': form})
 
 def tuvan(request):
 	if request.GET:

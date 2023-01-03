@@ -1,15 +1,10 @@
 package ptit.edu.kbsdemo.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "cases", schema = "dev_kbs", catalog = "")
 public class CasesEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
