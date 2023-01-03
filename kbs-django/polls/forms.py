@@ -83,7 +83,26 @@ PROBLEM_CHOICE = (
 
 ERROR_CHOICE = (
     ('LO01', 'Lỗi Bugi'),
-    ('LO02', 'Lỗi kim phun nhiên liệu')
+    ('LO02', 'Lỗi kim phun nhiên liệu'),
+    ('LO03', 'Lỗi van tuần hoàn khí xả'),
+    ('LO04', 'Lỗi van hằng nhiệt'),
+    ('LO05', 'Lỗi cảm biến lưu lượng khí'),
+    ('LO06', 'Lỗi van không tải'),
+    ('LO07', 'Lỗi bộ lọc nhiên liệu'),
+    ('LO08', 'Lỗi bơm xăng'),
+    ('LO09', 'Lỗi phanh'),
+    ('LO10', 'Lỗi xéc măng'),
+    ('LO11', 'Lỗi ắc quy'),
+    ('LO12', 'Lỗi máy phát điện'),
+    ('LO13', 'Lỗi trục cam'),
+    ('LO14', 'Lỗi trục khuỷu'),
+    ('LO15', 'Lỗi xupap'),
+    ('LO16', 'Lỗi dây curoa'),
+    ('LO17', 'lỗi hộp số'),
+    ('LO18', 'Lỗi lốp'),
+    ('LO19', 'Lỗi về hệ thống lái'),
+    ('LO20', 'Lỗi về hệ thống treo'),
+    ('LO21', 'Lỗi điều hòa')
 )
 class TuVanForm(ModelForm):
     customerTel = forms.CharField(label=mark_safe('<h3>Nhập số điện thoại</h3>'), max_length=20,required=False)
@@ -108,7 +127,7 @@ class TuVanForm(ModelForm):
 class GetUnknownCaseForm(ModelForm):
     customerTel = forms.CharField(label='Số điện thoại', max_length=20, required=False)
     # one choice for error
-    error = forms.ChoiceField(label=mark_safe('<br />Lỗi'), choices=ERROR_CHOICE, widget=forms.RadioSelect, required=False)
+    error = forms.ChoiceField(label=mark_safe('<br />Lỗi'), choices=ERROR_CHOICE, widget=forms.Select, required=False)
     error_text = forms.CharField(label=mark_safe('Lỗi khác      '), max_length=100, required=False)
     solution = forms.CharField(label=mark_safe('<br />Giải pháp'), widget=forms.Textarea, required=False)
     class Meta:

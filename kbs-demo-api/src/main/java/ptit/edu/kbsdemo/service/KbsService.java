@@ -112,12 +112,40 @@ public class KbsService {
         }
         SimilarityWeightsEntity similarityWeightsEntity2 =
             similarityWeightsEntityRepository.findByLabelId1AndLabelId2AllIgnoreCase(labelId2, labelId1);
-
         return similarityWeightsEntity2.getWeight();
     }
 
     public UnknownCasesEntity getUnknownCase(String customerTel) {
         UnknownCasesEntity unknownCasesEntity = unknownCasesRepository.findByCustomerTel(customerTel);
         return unknownCasesEntity;
+    }
+
+    public void addCase(String customerTel, String error, String solution) {
+        String errorLabelId = "";
+        if (error.length() > 4){
+            errorLabelId = "LO" + (errorsEntityRepository.count() + 1);
+            addError(errorLabelId, error, solution);
+        }
+        else {
+            errorLabelId = error;
+        }
+        CasesEntity casesEntity = new CasesEntity();
+        UnknownCasesEntity unknownCasesEntity = unknownCasesRepository.findByCustomerTel(customerTel);
+        casesEntity.setSymptomsLabelId(unknownCasesEntity.getSymptomsLabelId());
+        casesEntity.setWorkingEnvironmentLabelId(unknownCasesEntity.getWorkingEnvironmentLabelId());
+        casesEntity.setWorkingYearLabelId(unknownCasesEntity.getWorkingYearLabelId());
+        casesEntity.setKilometerLabelId(unknownCasesEntity.getKilometerLabelId());
+        casesEntity.setLastMaintenanceTimeLabelId(unknownCasesEntity.getLastMaintenanceTimeLabelId());
+        casesEntity.setProblemLabelId(unknownCasesEntity.getProblemLabelId());
+        casesEntity.setErrorLabelId(errorLabelId);
+        casesEntityRepository.save(casesEntity);
+    }
+
+    public void addError(String errorLabelId, String content, String solution) {
+        ErrorsEntity errorsEntity = new ErrorsEntity();
+        errorsEntity.setLabelId(errorLabelId);
+        errorsEntity.setContent(content);
+        errorsEntity.setSolution(solution);
+        errorsEntityRepository.save(errorsEntity);
     }
 }

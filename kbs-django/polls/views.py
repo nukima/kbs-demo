@@ -17,14 +17,15 @@ def feedback(request):
 	if request.GET:
 		customerTel = request.GET['customerTel']
 		error = ""
-		if 'error' in request.GET:
+
+		if 'error' in request.GET and (request.GET['error_text'] == ""):
 			error = request.GET['error']
 		else:
 			error = request.GET['error_text']
 		solution = request.GET['solution']
 		# 'localhost:8080/api/v1/kbs/add-case?customerTel=123&error=Loi dieu hoa&solution=mang ra gara'
 		url = 'http://localhost:8080/api/v1/kbs/add-case?customerTel={}&error={}&solution={}'.format(customerTel, error, solution)
-		response = requests.get(url).json()
+		response = requests.get(url)
 		return render(request, 'thanks.html')
 			
 
@@ -46,6 +47,9 @@ def tuvan(request):
 		problem = request.GET['problem']
 		url = 'http://localhost:8080/api/v1/kbs/solution?symptoms={}&workingEnvironment={}&workingYear={}&kilometer={}&lastMaintenanceTime={}&problem={}&customerTel={}'.format(','.join(symptoms), workingEnvironment, workingYear, kilometer, lastMaintenance, problem, customerTel)
 		response = requests.get(url).json()
+		if response['similarity_point'] < 0.7:
+			return render(request, 'unknown_case.html')
+		print(response)
 		return render(request, 'ket_qua_tu_van.html', {'response': response})
 
 		
