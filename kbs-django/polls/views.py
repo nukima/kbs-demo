@@ -40,6 +40,8 @@ def tuvan(request):
 		customerTel = request.GET['customerTel']
 		# get list symptoms
 		symptoms = request.GET.getlist('symptoms')
+		if (len(symptoms) > 3):
+			symptoms = symptoms[:3]
 		workingEnvironment = request.GET['workingEnvironment']
 		workingYear = request.GET['workingYear']
 		kilometer = request.GET['kilometer']
