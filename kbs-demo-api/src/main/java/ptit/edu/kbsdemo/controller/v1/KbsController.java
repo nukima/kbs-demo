@@ -24,4 +24,18 @@ public class KbsController {
     public UnknownCasesEntity getUnknownCase(String customerTel) {
         return kbsService.getUnknownCase(customerTel);
     }
+
+    @GetMapping("/add-case")
+    public void addCase(
+        String customerTel,
+        String error,
+        String solution
+    ){
+        kbsService.addCase(
+            customerTel,
+            error,
+            solution
+        );
+    }
+
 }

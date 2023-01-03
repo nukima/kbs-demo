@@ -120,4 +120,39 @@ public class KbsService {
         UnknownCasesEntity unknownCasesEntity = unknownCasesRepository.findByCustomerTel(customerTel);
         return unknownCasesEntity;
     }
+
+    public void addCase(String customerTel, String error, String solution) {
+        String errorLabelId = "";
+        if (error.length() > 4) {
+            long maxError = errorsEntityRepository.count();
+            errorLabelId = "LO" + (maxError + 1);
+            addError(errorLabelId, error, solution);
+        }
+        else {
+            errorLabelId = error;
+        }
+        UnknownCasesEntity unknownCasesEntity = unknownCasesRepository.findByCustomerTel(customerTel);
+        CasesEntity casesEntity = new CasesEntity();
+        casesEntity.setSymptomsLabelId(unknownCasesEntity.getSymptomsLabelId());
+        casesEntity.setWorkingEnvironmentLabelId(unknownCasesEntity.getWorkingEnvironmentLabelId());
+        casesEntity.setWorkingYearLabelId(unknownCasesEntity.getWorkingYearLabelId());
+        casesEntity.setKilometerLabelId(unknownCasesEntity.getKilometerLabelId());
+        casesEntity.setLastMaintenanceTimeLabelId(unknownCasesEntity.getLastMaintenanceTimeLabelId());
+        casesEntity.setProblemLabelId(unknownCasesEntity.getProblemLabelId());
+        casesEntity.setErrorLabelId(errorLabelId);
+        casesEntityRepository.save(casesEntity);
+    }
+
+    public void addError(String errorId, String errorContent, String solution) {
+        // check if error already exists
+        ErrorsEntity errorsEntity = errorsEntityRepository.findByLabelIdIgnoreCase(errorId);
+        if (errorsEntity != null) {
+            return;
+        }
+        errorsEntity = new ErrorsEntity();
+        errorsEntity.setLabelId(errorId);
+        errorsEntity.setContent(errorContent);
+        errorsEntity.setSolution(solution);
+        errorsEntityRepository.save(errorsEntity);
+    }
 }
