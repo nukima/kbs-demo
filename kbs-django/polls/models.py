@@ -9,3 +9,9 @@ class TuVan(models.Model):
     kilometer = models.CharField(max_length=100)
     lastMaintenance = models.CharField(max_length=100)
     problem = models.CharField(max_length=100)
+
+class UnknownCase(models.Model):
+    customerTel = models.CharField(max_length=20)
+    error = models.CharField(max_length=100)
+    error_text = models.CharField(max_length=100)
+    solution = models.TextField()

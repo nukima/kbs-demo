@@ -6,11 +6,8 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
-path("slide_bar.html", views.home),
-path("demo.html", views.demo),
-path("feed_back.html", views.feedback),
-path("solution.html", views.solution),
-path("form", views.form),
+path("home", views.home),
+path("feed_back", views.feedback, name="feed_back"),
 path("tuvan", views.tuvan, name="tuvan"),
 ]
 

@@ -1,7 +1,9 @@
 from django.forms import ModelForm
 from django import forms
+from django.utils.safestring import mark_safe
 
-from .models import TuVan
+
+from .models import *
 
 SYMPTOMS_CHOICE = (
     ('TC01', 'Xe hao nhiên liệu'),
@@ -33,6 +35,11 @@ PROBLEM_CHOICE = (
     ('SC01', 'Xe bị ngâm nước'),
     ('SC02', 'Xe bị để ngoài trời nắng thường xuyên')
 )
+
+ERROR_CHOICE = (
+    ('LO01', 'Lỗi Bugi'),
+    ('LO02', 'Lỗi kim phun nhiên liệu')
+)
 class TuVanForm(ModelForm):
     customerTel = forms.CharField(label='Số điện thoại', max_length=20)
     # multiple choice for symptoms
@@ -51,3 +58,14 @@ class TuVanForm(ModelForm):
     class Meta:
         model = TuVan
         fields = ['customerTel', 'symptoms', 'workingEnvironment', 'workingYear', 'kilometer', 'lastMaintenance', 'problem']
+
+
+class GetUnknownCaseForm(ModelForm):
+    customerTel = forms.CharField(label='Số điện thoại', max_length=20, required=False)
+    # one choice for error
+    error = forms.ChoiceField(label=mark_safe('<br />Lỗi'), choices=ERROR_CHOICE, widget=forms.RadioSelect, required=False)
+    error_text = forms.CharField(label=mark_safe('Lỗi khác      '), max_length=100, required=False)
+    solution = forms.CharField(label=mark_safe('<br />Giải pháp'), widget=forms.Textarea, required=False)
+    class Meta:
+        model = UnknownCase
+        fields = ['customerTel', 'error', 'error_text', 'solution']
