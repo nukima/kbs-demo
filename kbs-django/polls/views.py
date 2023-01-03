@@ -46,14 +46,6 @@ def tuvan(request):
 		problem = request.GET['problem']
 		url = 'http://localhost:8080/api/v1/kbs/solution?symptoms={}&workingEnvironment={}&workingYear={}&kilometer={}&lastMaintenanceTime={}&problem={}&customerTel={}'.format(','.join(symptoms), workingEnvironment, workingYear, kilometer, lastMaintenance, problem, customerTel)
 		response = requests.get(url).json()
-<<<<<<< HEAD
-		# response = {
-		# 	'error': 'UNKNOWN',
-		# 	'solution': 'UNKNOWN',
-		# 	'similarity_point': 0.5
-		# }
-=======
->>>>>>> e85dcb939aec326d02f0ba0205c22e02848477ce
 		return render(request, 'ket_qua_tu_van.html', {'response': response})
 
 		

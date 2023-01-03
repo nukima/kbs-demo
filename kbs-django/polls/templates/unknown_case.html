@@ -1,3 +1,38 @@
 Phương thêm html vào file này nữa nhé
 Thông báo case chưa xác định được lỗi, nên ra gara để sửa. Hệ thống đã lưu case lại, vui lòng cho feedback
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css"  />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    
+</head>
+<body>
+<div class="container">
+    <div class="row col-md-6 col-md-offset-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <h1>Chưa xác định được lỗi</h1>
+            </div>
+            <div class="panel-body">
+                <form method="get" action="{% url 'tuvan' %}" >
+                    <p>Hệ thống hiện tại chưa xác định được lỗi của bạn. Vui lòng để lại phản hồi sau khi mang ra gara sửa</p>
+                </form>
+                <br>
+                <a href="home" class="btn btn-primary">Trở lại</a>
+            </div>
+            <div class="panel-footer text-right">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+</div>
+</body>
+</html>
